@@ -145,9 +145,6 @@ struct connectionObject {
 
     /* the pid this connection was created into */
     pid_t procpid;
-
-    /* inside a with block */
-    int entered;
 };
 
 /* map isolation level values into a numeric const */

@@ -842,9 +842,6 @@ and each ``with`` block is effectively wrapped in a separate transaction::
         finally:
             conn.close()
 
-.. versionchanged:: 2.9
-    ``with connection`` starts a transaction also on autocommit connections.
-
 
 .. index::
     pair: Server side; Cursor

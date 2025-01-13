@@ -407,22 +407,10 @@ psyco_conn_tpc_recover(connectionObject *self, PyObject *dummy)
 static PyObject *
 psyco_conn_enter(connectionObject *self, PyObject *dummy)
 {
-    PyObject *rv = NULL;
-
     EXC_IF_CONN_CLOSED(self);
 
-    if (self->entered) {
-        PyErr_SetString(ProgrammingError,
-            "the connection cannot be re-entered recursively");
-        goto exit;
-    }
-
-    self->entered = 1;
     Py_INCREF(self);
-    rv = (PyObject *)self;
-
-exit:
-    return rv;
+    return (PyObject *)self;
 }
 
 
@@ -439,9 +427,6 @@ psyco_conn_exit(connectionObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "OOO", &type, &name, &tb)) {
         goto exit;
     }
-
-    /* even if there will be an error, consider ourselves out */
-    self->entered = 0;
 
     if (type == Py_None) {
         if (!(tmp = PyObject_CallMethod((PyObject *)self, "commit", NULL))) {
